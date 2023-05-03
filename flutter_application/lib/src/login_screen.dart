@@ -95,9 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "password": passwordController.text
                               });
                           if (response.statusCode == 200) {
-                            this.idUser=response.data.toString();
+                            this.idUser = response.data['user']['_id'];
+                            print(idUser+"!!");
                             
-                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){return new ListScreen(idUser: idUser);}));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){return new ListScreen(idUser: idUser.toString());}));
                           } else if (response.statusCode == 403) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

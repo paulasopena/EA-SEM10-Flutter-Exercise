@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_application/infrastructure/models/subject.dart';
+import 'package:flutter_application/src/profile_screen.dart';
 
 class ListScreen extends StatefulWidget {
-  final String idUser="";
-  const ListScreen({super.key, idUser});
+  final String idUser;
+  const ListScreen({super.key, required this.idUser});
   
   @override
   State<ListScreen> createState() => _ListScreenState();
@@ -15,6 +16,8 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   Subject? subject;
   List<Subject> subjectList = <Subject>[];
+  
+
 
   @override
   void initState() {
@@ -59,8 +62,8 @@ class _ListScreenState extends State<ListScreen> {
                   leading: Icon(Icons.person),
                   title: Text('Profile'),
                   onTap: (){
-                    
-                    Navigator.pushNamed(context, '/profile_screen');
+                    print(widget.idUser);
+                    MaterialPageRoute(builder: (context) => ProfileScreen(idUser: widget.idUser.toString()));
                   }
                 ),
                 ListTile(

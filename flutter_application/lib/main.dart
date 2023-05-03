@@ -20,13 +20,15 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/list_screen':
-            return MaterialPageRoute(builder: (context) => ListScreen());
+            final args = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(builder: (context) => ListScreen(idUser: args['idUser']));
           case '/register_screen':
             return MaterialPageRoute(builder: (context) => RegisterScreen());
           case '/info_screen':
             return MaterialPageRoute(builder: (context)=> InfoScreen());
           case '/profile_screen':
-            return MaterialPageRoute(builder: (context)=> ProfileScreen());
+            final args = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(builder: (context) => ProfileScreen(idUser: args['idUser']));
           default: 
             return MaterialPageRoute(builder: (context) => LoginScreen());
         }

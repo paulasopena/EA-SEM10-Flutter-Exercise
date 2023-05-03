@@ -4,24 +4,46 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String idUser="";
-  const ProfileScreen({idUser});
+  final String idUser;
+
+  const ProfileScreen({required this.idUser});
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
-Future<User> _getUser() async {
-    
-    final response = await Dio().get('http://192.168.56.1:3002/users/'+idUser);
-    final data = jsonDecode(response.data);
-    setState(() {
-      username = data['username'];
-    });
-  }
+ 
+
+  
 class _ProfileScreenState extends State<ProfileScreen> {
   // Algunos datos de ejemplo
-  final String _name = "SEMINARI 10-Flutter";
-  final String _email = "flutter@gmail.com";
-  final String _bio = "Desarrolladores de software apasionados por Flutter! :)";
+  late String name = "";
+  late String surname = "";
+  late String username="";
+
+  Future<void> _getUser() async {
+    print("hi");
+    final response = await Dio().get('http://192.168.56.1:3002/user/'+widget.idUser);
+    print(widget.idUser+"hey");
+    final data = response.data;
+    if (response.statusCode==200){
+      setState(() {
+      this.name=response.data['name'];
+      this.surname=response.data['surname'];
+      this.username=response.data['username'];
+      });
+    }
+    else{
+      print("bad shit");
+    }
+    
+  }
+
+  @override
+  void initState() {
+    print("ARE YU HERE YU IDIOT");
+    super.initState();
+    _getUser();
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -50,14 +72,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 20),
           Center(
             child: Text(
-              _name,
+              name,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(height: 10),
           Center(
             child: Text(
-              _email,
+              surname,
               style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
           ),
@@ -65,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              _bio,
+              username,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18),
             ),
